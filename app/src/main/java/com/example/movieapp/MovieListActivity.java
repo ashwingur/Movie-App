@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.movieapp.models.MovieModel;
 import com.example.movieapp.request.Servicee;
+import com.example.movieapp.response.MovieResponse;
 import com.example.movieapp.response.MovieSearchResponse;
 import com.example.movieapp.utils.Credentials;
 import com.example.movieapp.utils.MovieApi;
@@ -35,7 +36,38 @@ public class MovieListActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getRetrofitResponse();
+                getRetrofitResponseAccordingToID();
+            }
+        });
+    }
+
+    private void getRetrofitResponseAccordingToID() {
+
+        MovieApi movieApi = Servicee.getMovieApi();
+        Call<MovieModel> responseCall = movieApi.getMovie(
+                343611,
+                Credentials.API_KEY
+        );
+
+        responseCall.enqueue(new Callback<MovieModel>() {
+            @Override
+            public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
+
+                if (response.code() == 200){
+                    //MovieModel movie = response.body().getMovie();
+                    Log.v(TAG, "The response " + response.body().toString());
+                } else {
+                    try{
+                        Log.v(TAG, "Error " + response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieModel> call, Throwable t) {
+
             }
         });
     }
@@ -45,7 +77,7 @@ public class MovieListActivity extends AppCompatActivity {
 
         Call<MovieSearchResponse> responseCall = movieApi.searchMovie(
                 Credentials.API_KEY,
-                "Jack Reacher",
+                "Action",
                 "1"
         );
 
@@ -75,7 +107,6 @@ public class MovieListActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
+
 }

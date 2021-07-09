@@ -8,8 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class MovieResponse {
     // 1 - Finding the Movie object
 
-    @SerializedName("results")
-    @Expose
+
     private MovieModel movie;
 
     public MovieModel getMovie(){
