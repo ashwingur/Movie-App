@@ -91,7 +91,7 @@ public class MovieListActivity extends AppCompatActivity {
         Call<MovieSearchResponse> responseCall = movieApi.searchMovie(
                 Credentials.API_KEY,
                 "Action",
-                "1"
+                1
         );
 
         responseCall.enqueue(new Callback<MovieSearchResponse>() {
