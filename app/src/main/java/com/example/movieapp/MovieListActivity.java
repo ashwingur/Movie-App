@@ -1,6 +1,8 @@
 package com.example.movieapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,7 @@ import com.example.movieapp.response.MovieResponse;
 import com.example.movieapp.response.MovieSearchResponse;
 import com.example.movieapp.utils.Credentials;
 import com.example.movieapp.utils.MovieApi;
+import com.example.movieapp.viewmodels.MovieListViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ public class MovieListActivity extends AppCompatActivity {
     private static final String TAG = "MovieListActivity";
     Button btn;
 
+    // ViewModel
+    private MovieListViewModel mMovieListViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +39,19 @@ public class MovieListActivity extends AppCompatActivity {
 
         btn = findViewById(R.id.button);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getRetrofitResponseAccordingToID();
-            }
-        });
+        mMovieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
+
+
+    }
+
+    // Observing any data change
+    private void ObserveAnyChange(){
+         mMovieListViewModel.getMovies().observe(this, new Observer<List<MovieModel>>() {
+             @Override
+             public void onChanged(List<MovieModel> movieModels) {
+                 // Observing for any data change
+             }
+         });
     }
 
     private void getRetrofitResponseAccordingToID() {
