@@ -41,7 +41,15 @@ public class MovieListActivity extends AppCompatActivity {
 
         mMovieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
+        ObserveAnyChange();
 
+        // Testing the method
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchMovieApi("Fast", 1);
+            }
+        });
     }
 
     // Observing any data change
@@ -50,8 +58,19 @@ public class MovieListActivity extends AppCompatActivity {
              @Override
              public void onChanged(List<MovieModel> movieModels) {
                  // Observing for any data change
+                 if (movieModels != null){
+                     for (MovieModel m: movieModels){
+                         // Get data in log
+                         Log.v(TAG, "onChanged: " + m.getTitle());
+                     }
+                 }
              }
          });
+    }
+
+    // (4) Calling method in main activity
+    private void searchMovieApi(String query, int pageNumber){
+        mMovieListViewModel.searchMovieApi(query, pageNumber);
     }
 
     private void getRetrofitResponseAccordingToID() {

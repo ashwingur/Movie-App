@@ -44,6 +44,7 @@ public class MovieApiClient {
         return mMovies;
     }
 
+    // (1) Gets called up the classes
     public void searchMoviesApi(String query,  int pageNumber){
         if (retriveMoviesRunnable != null){
             retriveMoviesRunnable = null;
