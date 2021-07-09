@@ -27,7 +27,7 @@ public class MovieApiClient {
     private static MovieApiClient instance;
 
     // Making global runnable
-    private RetriveMoviesRunnable retriveMoviesRunnable;
+    private RetrieveMoviesRunnable retrieveMoviesRunnable;
 
     public static MovieApiClient getInstance(){
         if (instance == null){
@@ -46,17 +46,17 @@ public class MovieApiClient {
 
     // (1) Gets called up the classes
     public void searchMoviesApi(String query,  int pageNumber){
-        if (retriveMoviesRunnable != null){
-            retriveMoviesRunnable = null;
+        if (retrieveMoviesRunnable != null){
+            retrieveMoviesRunnable = null;
         }
-        retriveMoviesRunnable = new RetriveMoviesRunnable(query, pageNumber);
+        retrieveMoviesRunnable = new RetrieveMoviesRunnable(query, pageNumber);
 
-        final Future myHandler = AppExecutors.getInstance().networkIO().submit(retriveMoviesRunnable);
+        final Future myHandler = AppExecutors.getInstance().networkIO().submit(retrieveMoviesRunnable);
 
         AppExecutors.getInstance().networkIO().schedule(new Runnable() {
             @Override
             public void run() {
-                // Cancelling the retrofit call
+                // Cancelling the retrofit call if it takes too long
                 myHandler.cancel(true);
             }
         }, 5000, TimeUnit.MILLISECONDS);
@@ -65,13 +65,12 @@ public class MovieApiClient {
 
     // Retrieving data from RESTapi by runnable class
     // We have 2 types of queries: ID and search movie
-    private class RetriveMoviesRunnable implements Runnable{
-
+    private class RetrieveMoviesRunnable implements Runnable{
         private String query;
         private int pageNumber;
         private boolean cancelRequest;
 
-        public RetriveMoviesRunnable(String query, int pageNumber) {
+        public RetrieveMoviesRunnable(String query, int pageNumber) {
             this.query = query;
             this.pageNumber = pageNumber;
             this.cancelRequest = false;
