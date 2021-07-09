@@ -7,28 +7,28 @@ public class MovieModel implements Parcelable {
     // Model class for the movies
 
     private String title;
-    private String posterPath;
-    private String releaseDate;
-    private int movieId;
-    private float voteAverage;
-    private String movieOverview;
+    private String poster_path;
+    private String release_date;
+    private int movie_id;
+    private float vote_average;
+    private String movie_overview;
 
-    public MovieModel(String title, String posterPath, String releaseDate, int movieId, float voteAverage, String movieOverview) {
+    public MovieModel(String title, String poster_path, String release_date, int movie_id, float vote_average, String movie_overview) {
         this.title = title;
-        this.posterPath = posterPath;
-        this.releaseDate = releaseDate;
-        this.movieId = movieId;
-        this.voteAverage = voteAverage;
-        this.movieOverview = movieOverview;
+        this.poster_path = poster_path;
+        this.release_date = release_date;
+        this.movie_id = movie_id;
+        this.vote_average = vote_average;
+        this.movie_overview = movie_overview;
     }
 
     protected MovieModel(Parcel in) {
         title = in.readString();
-        posterPath = in.readString();
-        releaseDate = in.readString();
-        movieId = in.readInt();
-        voteAverage = in.readFloat();
-        movieOverview = in.readString();
+        poster_path = in.readString();
+        release_date = in.readString();
+        movie_id = in.readInt();
+        vote_average = in.readFloat();
+        movie_overview = in.readString();
     }
 
     public static final Creator<MovieModel> CREATOR = new Creator<MovieModel>() {
@@ -43,30 +43,41 @@ public class MovieModel implements Parcelable {
         }
     };
 
+    @Override
+    public String toString() {
+        return "MovieModel{" +
+                "title='" + title + '\'' +
+                ", poster_path='" + poster_path + '\'' +
+                ", release_date='" + release_date + '\'' +
+                ", movie_id=" + movie_id +
+                ", vote_average=" + vote_average +
+                ", movie_overview='" + movie_overview + '\'' +
+                '}';
+    }
 
     // Getters
     public String getTitle() {
         return title;
     }
 
-    public String getPosterPath() {
-        return posterPath;
+    public String getPoster_path() {
+        return poster_path;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
+    public String getRelease_date() {
+        return release_date;
     }
 
-    public int getMovieId() {
-        return movieId;
+    public int getMovie_id() {
+        return movie_id;
     }
 
-    public float getVoteAverage() {
-        return voteAverage;
+    public float getVote_average() {
+        return vote_average;
     }
 
-    public String getMovieOverview() {
-        return movieOverview;
+    public String getMovie_overview() {
+        return movie_overview;
     }
 
     @Override
@@ -77,10 +88,10 @@ public class MovieModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
-        dest.writeString(posterPath);
-        dest.writeString(releaseDate);
-        dest.writeInt(movieId);
-        dest.writeFloat(voteAverage);
-        dest.writeString(movieOverview);
+        dest.writeString(poster_path);
+        dest.writeString(release_date);
+        dest.writeInt(movie_id);
+        dest.writeFloat(vote_average);
+        dest.writeString(movie_overview);
     }
 }
