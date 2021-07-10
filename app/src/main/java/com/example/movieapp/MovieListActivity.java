@@ -1,6 +1,7 @@
 package com.example.movieapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,27 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.movieapp.adapters.MovieRecyclerViewAdapter;
 import com.example.movieapp.adapters.OnMovieListener;
 import com.example.movieapp.models.MovieModel;
-import com.example.movieapp.request.Servicee;
-import com.example.movieapp.response.MovieResponse;
-import com.example.movieapp.response.MovieSearchResponse;
-import com.example.movieapp.utils.Credentials;
-import com.example.movieapp.utils.MovieApi;
 import com.example.movieapp.viewmodels.MovieListViewModel;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MovieListActivity extends AppCompatActivity implements OnMovieListener {
     private static final String TAG = "MovieListActivity";
@@ -45,12 +34,33 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
 
+        // Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        SetupSearchView();
 
         mMovieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
         ConfigureRecyclerView();
         ObserveAnyChange();
-        searchMovieApi("fast",1);
+    }
+
+    // Get data from search view and query the api to get the results
+    private void SetupSearchView() {
+        final SearchView searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mMovieListViewModel.searchMovieApi(query, 1);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     // Observing any data change
@@ -68,11 +78,6 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
                  }
              }
          });
-    }
-
-    // (4) Calling method in main activity
-    private void searchMovieApi(String query, int pageNumber){
-        mMovieListViewModel.searchMovieApi(query, pageNumber);
     }
 
     // Initialising recyclerview and adapter

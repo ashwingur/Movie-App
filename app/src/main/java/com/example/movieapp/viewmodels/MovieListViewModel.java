@@ -1,7 +1,5 @@
 package com.example.movieapp.viewmodels;
 
-import android.graphics.Movie;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
