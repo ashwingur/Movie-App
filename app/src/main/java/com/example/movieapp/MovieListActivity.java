@@ -47,7 +47,10 @@ public class MovieListActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.d(TAG, "onClick: Clicked button");
                 searchMovieApi("Fast", 1);
+                searchMovieApi("Fast", 2);
             }
         });
     }

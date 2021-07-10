@@ -59,7 +59,7 @@ public class MovieApiClient {
                 // Cancelling the retrofit call if it takes too long
                 myHandler.cancel(true);
             }
-        }, 5000, TimeUnit.MILLISECONDS);
+        }, 3000, TimeUnit.MILLISECONDS);
 
     }
 
@@ -93,6 +93,9 @@ public class MovieApiClient {
                         mMovies.postValue(list);
                     } else {
                         List<MovieModel> currentMovies = mMovies.getValue();
+                        if (currentMovies == null){
+                            currentMovies = new ArrayList<>();
+                        }
                         currentMovies.addAll(list);
                         mMovies.postValue(currentMovies);
                     }
