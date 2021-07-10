@@ -53,6 +53,7 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mMovieListViewModel.searchMovieApi(query, 1);
+                recyclerView.smoothScrollToPosition(0);
                 return false;
             }
 
