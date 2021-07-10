@@ -14,6 +14,7 @@ import com.example.movieapp.R;
 import com.example.movieapp.models.MovieModel;
 import com.example.movieapp.utils.Credentials;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -36,16 +37,21 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((MovieViewHolder)holder).title.setText(mMovies.get(position).getTitle());
         ((MovieViewHolder)holder).release_date.setText(mMovies.get(position).getRelease_date());
-        //((MovieViewHolder)holder).duration.setText(Integer.valueOf(mMovies.get(position).getRuntime()));
+        ((MovieViewHolder)holder).duration.setText(mMovies.get(position).getOriginal_language());
 
         // Divide by 2 because voting is out of 10, but rating bar is out of 5
         ((MovieViewHolder)holder).ratingBar.setRating(mMovies.get(position).getVote_average() / 2);
 
         // Image view: Using glide library
-        Glide.with(((MovieViewHolder) holder).imageView.getContext())
-                .load(Credentials.BASE_IMAGE_URL + mMovies.get(position).getPoster_path())
-                .into(((MovieViewHolder)holder).imageView);
-
+        if (mMovies.get(position).getPoster_path() != null){
+            Glide.with(((MovieViewHolder) holder).imageView.getContext())
+                    .load(Credentials.BASE_IMAGE_URL + mMovies.get(position).getPoster_path())
+                    .into(((MovieViewHolder)holder).imageView);
+        } else {
+            Glide.with(((MovieViewHolder) holder).imageView.getContext())
+                    .load("https://upload.wikimedia.org/wikipedia/en/c/c8/Very_Black_screen.jpg")
+                    .into(((MovieViewHolder)holder).imageView);
+        }
     }
 
     @Override
