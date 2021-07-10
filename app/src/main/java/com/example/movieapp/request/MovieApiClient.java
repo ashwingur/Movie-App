@@ -59,7 +59,7 @@ public class MovieApiClient {
                 // Cancelling the retrofit call if it takes too long
                 myHandler.cancel(true);
             }
-        }, 3000, TimeUnit.MILLISECONDS);
+        }, 4000, TimeUnit.MILLISECONDS);
 
     }
 

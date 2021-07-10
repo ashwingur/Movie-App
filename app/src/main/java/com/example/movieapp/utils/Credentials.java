@@ -4,5 +4,6 @@ public class Credentials {
 
     public static final String BASE_URL = "https://api.themoviedb.org";
     public static final String API_KEY = "e8932bf1e7716def8785f719d9ca7168";
+    public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
 
 }

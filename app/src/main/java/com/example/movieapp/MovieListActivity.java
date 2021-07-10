@@ -3,12 +3,16 @@ package com.example.movieapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.movieapp.adapters.MovieRecyclerViewAdapter;
+import com.example.movieapp.adapters.OnMovieListener;
 import com.example.movieapp.models.MovieModel;
 import com.example.movieapp.request.Servicee;
 import com.example.movieapp.response.MovieResponse;
@@ -25,9 +29,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieListActivity extends AppCompatActivity {
+public class MovieListActivity extends AppCompatActivity implements OnMovieListener {
     private static final String TAG = "MovieListActivity";
-    Button btn;
+
+    private RecyclerView recyclerView;
+    private MovieRecyclerViewAdapter mAdapter;
 
     // ViewModel
     private MovieListViewModel mMovieListViewModel;
@@ -36,23 +42,14 @@ public class MovieListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.recyclerView);
 
-        btn = findViewById(R.id.button);
 
         mMovieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
+        ConfigureRecyclerView();
         ObserveAnyChange();
-
-        // Testing the method
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.d(TAG, "onClick: Clicked button");
-                searchMovieApi("Fast", 1);
-                searchMovieApi("Fast", 2);
-            }
-        });
+        searchMovieApi("fast",2);
     }
 
     // Observing any data change
@@ -65,6 +62,7 @@ public class MovieListActivity extends AppCompatActivity {
                      for (MovieModel m: movieModels){
                          // Get data in log
                          Log.v(TAG, "onChanged: " + m.getTitle());
+                         mAdapter.setMovies(movieModels);
                      }
                  }
              }
@@ -74,6 +72,13 @@ public class MovieListActivity extends AppCompatActivity {
     // (4) Calling method in main activity
     private void searchMovieApi(String query, int pageNumber){
         mMovieListViewModel.searchMovieApi(query, pageNumber);
+    }
+
+    // Initialising recyclerview and adapter
+    private void ConfigureRecyclerView(){
+        mAdapter = new MovieRecyclerViewAdapter(this);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void getRetrofitResponseAccordingToID() {
@@ -144,4 +149,13 @@ public class MovieListActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onMovieClick(int position) {
+
+    }
+
+    @Override
+    public void onCategoryClick(String category) {
+
+    }
 }
