@@ -27,7 +27,7 @@ public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnC
         duration = itemView.findViewById(R.id.movie_duration);
         imageView = itemView.findViewById(R.id.movie_image);
         ratingBar = itemView.findViewById(R.id.rating_bar);
-
+        this.onMovieListener = onMovieListener;
         itemView.setOnClickListener(this);
     }
 
