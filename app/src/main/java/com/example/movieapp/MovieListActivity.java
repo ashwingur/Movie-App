@@ -1,5 +1,6 @@
 package com.example.movieapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
@@ -16,6 +17,8 @@ import com.example.movieapp.adapters.MovieRecyclerViewAdapter;
 import com.example.movieapp.adapters.OnMovieListener;
 import com.example.movieapp.models.MovieModel;
 import com.example.movieapp.viewmodels.MovieListViewModel;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -86,6 +89,18 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
         mAdapter = new MovieRecyclerViewAdapter(this);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Recycler view pagination to load the next page of api response
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull @NotNull RecyclerView recyclerView, int newState) {
+                if (!recyclerView.canScrollVertically(1)){
+                    // Display the next search results from next page
+                    mMovieListViewModel.searchNextPage();
+                }
+
+            }
+        });
     }
 
     @Override
