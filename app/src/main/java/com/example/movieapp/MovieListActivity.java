@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
@@ -65,6 +66,12 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
                 return false;
             }
         });
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(false);
+            }
+        });
     }
 
     // Observing any data change
@@ -88,7 +95,7 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
     private void ConfigureRecyclerView(){
         mAdapter = new MovieRecyclerViewAdapter(this);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         // Recycler view pagination to load the next page of api response
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

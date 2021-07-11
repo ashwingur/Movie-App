@@ -86,18 +86,20 @@ public class MovieApiClient {
                 }
                 if (response.code() == 200){
                     List<MovieModel> list = new ArrayList<>(((MovieSearchResponse)response.body()).getMovies());
-                    if (pageNumber == 1){
-                        // Sending data to live data
-                        // Postvalue: used for background thread
-                        // setValue: not for background thread
-                        mMovies.postValue(list);
-                    } else {
-                        List<MovieModel> currentMovies = mMovies.getValue();
-                        if (currentMovies == null){
-                            currentMovies = new ArrayList<>();
+                    if (list.size() > 0) {
+                        if (pageNumber == 1) {
+                            // Sending data to live data
+                            // Postvalue: used for background thread
+                            // setValue: not for background thread
+                            mMovies.postValue(list);
+                        } else {
+                            List<MovieModel> currentMovies = mMovies.getValue();
+                            if (currentMovies == null) {
+                                currentMovies = new ArrayList<>();
+                            }
+                            currentMovies.addAll(list);
+                            mMovies.postValue(currentMovies);
                         }
-                        currentMovies.addAll(list);
-                        mMovies.postValue(currentMovies);
                     }
                 } else {
                     String error = response.errorBody().toString();
