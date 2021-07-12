@@ -104,6 +104,7 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
                 if (!recyclerView.canScrollVertically(1)){
                     // Display the next search results from next page
                     mMovieListViewModel.searchNextPage();
+                    
                 }
 
             }
